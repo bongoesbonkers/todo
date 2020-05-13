@@ -36,14 +36,12 @@ newToDoForm.addEventListener('submit', function(e){
     e.preventDefault();
     let newToDoInput = newToDoForm.querySelector('input');
     let newToDo = newToDoInput.value.trim();
-    const info = document.querySelector('.info');
 
     if(newToDo.length === 0){
         info.innerText = 'New to do must be at least 1 character long';
     } else {
         toDoData.push(newToDo);
         generateToDo(newToDo, toDoList);
-        info.innerText = 'Add a new to do...';
         newToDoForm.reset();
         //remove h4 - remove invisible class, toggle fadeIn
         empty.classList.add('filtered');
