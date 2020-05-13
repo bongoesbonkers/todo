@@ -49,9 +49,6 @@ newToDoForm.addEventListener('submit', function(e){
         if (result) {
             empty.classList.toggle('fadeIn');
         }
-        // let timer = setTimeout( ()=> {
-
-        // }, 400)
     }
 });
 

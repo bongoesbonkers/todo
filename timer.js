@@ -1,5 +1,8 @@
 const timeDisp = document.querySelector('.timer');
 const startBtn = document.querySelector('.start');
+const pauseBtn = document.querySelector('.pause');
+const resumeBtn = document.querySelector('.resume');
+const timeInfo = document.querySelector('.timer-info');
 const form = document.querySelector('.duration');
 const reset = document.querySelector('.reset');
 let duration;
@@ -31,24 +34,27 @@ form.addEventListener('submit', e => {
                         secondsRemainder = 59;
                     } else if (secondsRemainder) {
                         secondsRemainder--;
+                    };
+                    if( duration < 60000) {
+                        timeInfo.textContent = 'Session almost over';
                     }
                     stopTimer(timer, duration);
                 } else {
                     template = `${htmlBase}00:00</span>`;
                     clearInterval(timer);
                     timeDisp.classList.remove('live');
+                    timeInfo.classList.add('d-none');
                 }
                 updateUI(minutesRemainder, secondsRemainder, timeDisp);
             }, 1000)
             timeDisp.classList.add('live');
+            timeInfo.classList.remove('d-none');
     } else {
         form.reset();
     }
 });
 
 // const startTimer = (minutesRemainder, secondsRemainder, duration) => {
-
-//     let timer = setInterval(()=>{
 //         let template = `<span>${minutesRemainder}:${secondsRemainder}<span>`;
 //         if (duration) {
 //             duration -=1000;
@@ -65,8 +71,8 @@ form.addEventListener('submit', e => {
 //             console.log('interval cleared');
 //         }
 //         updateUI(minutesRemainder, secondsRemainder, timeDisp);
-//     }, 1000)
 // }
+
 
 const stopTimer = (interval, time) => {
     reset.addEventListener('click', () => {
@@ -74,6 +80,7 @@ const stopTimer = (interval, time) => {
         time = 0;
         timeDisp.classList.remove('live');
         timeDisp.innerHTML = `${htmlBase}00:00</span>`;
+        timeInfo.classList.add('d-none');
     });
 }
 
@@ -81,7 +88,7 @@ let updateUI = (minutesRemainder, secondsRemainder, element) => {
 
     if (duration === 0) {
         template = `${htmlBase}00:00</span>`;
-    }
+    } 
     else if (minutesRemainder > 10 && secondsRemainder < 10) {
         template = `${htmlBase}${minutesRemainder}:0${secondsRemainder}</span>`;
     } 
@@ -100,7 +107,7 @@ let updateUI = (minutesRemainder, secondsRemainder, element) => {
     else if(minutesRemainder < 10 && secondsRemainder < 1) {
         template = `${htmlBase}0${minutesRemainder}:${secondsRemainder}0</span>`;
     } 
-    else if(minutesRemainder < 1 && secondsRemainder > 1) {
+    else if(duration < 60000) {
         template = `${htmlBase}00:${secondsRemainder}</span>`;
     } 
     else if(minutesRemainder < 1 && secondsRemainder < 10) {

@@ -15,6 +15,14 @@ body {
     /* border-radius: 5%; */
 }
 
+.tomato {
+    color: red;
+    width: 5%;
+    position: relative;
+    top: -1px;
+    left: -2px;
+}
+
 .container__timer .form-control {
     margin: 0 auto;
     width: 85%;
