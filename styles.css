@@ -1,0 +1,93 @@
+body {
+    background-color: rgb(71, 31, 109);
+    /* background-image: linear-gradient(rgb(71, 31, 109),rgb(78, 30, 126)) !important; */
+    /* background-size: cover;
+    background-position: top; */
+    position: relative;
+}
+
+.container {
+    max-width: 400px;
+}
+
+.container__timer {
+    background-color:  rgba(43, 29, 56, 0.7);
+    /* border-radius: 5%; */
+}
+
+.container__timer .form-control {
+    margin: 0 auto;
+    width: 85%;
+}
+
+input[type=text],
+input[type=text]:focus {
+    color: #fff;
+    border: none;
+    background-color: rgba(0,0,0,0.2);
+    max-width: 400px;
+}
+
+input[type=text]::placeholder {
+    color: rgb(179, 176, 176);
+    font-size: 0.7em;
+    text-transform: capitalize;
+}
+
+li {
+    color:  rgb(71, 31, 109);
+    cursor: pointer;
+}
+
+.delete {
+    cursor: pointer;
+}
+
+.checked {
+    text-decoration: line-through;
+}
+
+.filtered {
+    visibility: hidden;
+    display: none !important;
+}
+
+.unfiltered {
+    box-shadow: 0 0 3px rgba(255,255,255, 0.5);
+}
+
+.fadeOut {
+   animation-name: fadeOut;
+   animation-duration: .5s;
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+    animation-duration: .5s;
+}
+
+@keyframes fadeOut {
+        0% {
+            opacity: 1;
+        }
+
+
+        100% {
+            opacity: 0;
+            display: none !important;
+            visibility: invisible;
+        }
+}
+
+@keyframes fadeIn {
+    0% {
+        visibility: visible;
+        display: block !important;
+        opacity: 0;
+    }
+
+
+    100% {
+        opacity: 1;
+    }
+}
