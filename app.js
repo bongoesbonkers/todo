@@ -22,14 +22,14 @@ const loadData = (savedData) => {
         ];
     } else if (JSON.parse(loaded).length === 0) {
         toggleInfo("Welcome back, your to do list is empty");
-        todoItems = [];
+        toDoItems = [];
         
     } else if (JSON.parse(loaded).length){
-        todoItems = JSON.parse(loaded);
+        toDoItems = JSON.parse(loaded);
     }
 
     if(toDoItems.length){
-        todoItems.forEach(toDo => {
+        toDoItems.forEach(toDo => {
             generateToDo(toDo, toDoList);
         });    
     }
