@@ -64,6 +64,9 @@ li {
     box-shadow: 0 0 3px rgba(255,255,255, 0.5);
 }
 
+
+/* ANIMATIONS */
+
 .fadeOut {
    animation-name: fadeOut;
    animation-duration: .5s;
