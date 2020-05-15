@@ -1,18 +1,40 @@
 
 const newToDoForm = document.querySelector('.add');
-let toDoList = document.querySelector('ul');
+const toDoList = document.querySelector('ul');
 const empty = document.querySelector('.empty');
 const failSearch = document.querySelector('.failSearch');
+let toDoItems = [];
 
-let toDoData = [
-    'click anywhere on a todo to cross it out. Click on it again to uncheck it.',
-    'click on the x to delete a todo',
-    'add new /search for todos with the forms'
-];
+//DATA 
 
-const loadToDos = function() {
-    toDoData.forEach(function(data){
-        generateToDo(data, toDoList);
+const saveData = (data) => {
+    localStorage.setItem('Todos', JSON.stringify(data));
+}
+
+const loadData = (savedData) => {
+
+    let loaded = localStorage.getItem(savedData)
+    
+    if (loaded === null) {
+        toDoItems = [
+            'click anywhere on a todo to cross it out. Click on it again to uncheck it.',
+            'click on the x to delete a todo',
+            'add new /search for todos with the forms'
+        ];
+    } else if (JSON.parse(loaded).length === 0) {
+        toggleInfo("Welcome back, your to do list is empty");
+        
+    } else {
+        todoItems = JSON.parse(loaded);
+    }
+    loadToDos(toDoItems);
+
+}
+
+
+const loadToDos = (data) => {
+    data.forEach(function(datum){
+        generateToDo(datum, toDoList);
     });
 };
 
@@ -26,7 +48,6 @@ const generateToDo = function (inputValue, outputTarget){
     </li>
     `;
     outputTarget.innerHTML += template;
-
 } 
 
 // ADD NEW TO DO
@@ -40,19 +61,23 @@ newToDoForm.addEventListener('submit', function(e){
     if(newToDo.length === 0){
         info.innerText = 'New to do must be at least 1 character long';
     } else {
-        toDoData.push(newToDo);
+
+        toDoItems.push(newToDo);
+        console.log(toDoItems);
         generateToDo(newToDo, toDoList);
         newToDoForm.reset();
+
         //remove h4 - remove invisible class, toggle fadeIn
         empty.classList.add('filtered');
         let result = Array.from(empty.classList).find((cls)=> cls.includes('fadeIn'));
         if (result) {
             empty.classList.toggle('fadeIn');
         }
+        saveData(toDoItems);
     }
 });
 
-// CHECK TO DO
+// MARK TO DO
 
 toDoList.addEventListener('click', function(e) {
     if (e.target.tagName === "LI") {
@@ -73,50 +98,29 @@ toDoList.addEventListener('click', function(e) {
             e.target.parentElement.parentElement.remove();
         }, 350);
 
-        checkToDos();
+        toggleInfo("Wow...it's empty here.");
+        const targetToDo = e.target.parentElement.parentElement;
+        const targetContent = targetToDo.children[0].textContent;
+        const targetIndex = toDoItems.indexOf(targetContent)
+        toDoItems.splice(targetIndex, 1);
+        saveData(toDoItems);
     }
 });
 
-// CHECK IF TODOs ARE AVAILABLE
+// CHECK IF TODOs ARE AVAILABLE TO TOGGLE INFO MESSAGE
 
-const checkToDos = function(){
-    
+const toggleInfo = (message) =>{
     let toDoAvailable = Array.from(toDoList.children);
     if( toDoAvailable.length <= 1) {
         let timer = setTimeout(()=>{
+            empty.textContent = message;
             empty.classList.toggle('filtered');
             empty.classList.toggle('fadeIn');
         }, 300);
     }
-
 }
 
-
-// SEARCH TO DO
-//Function - 
-//A. detect when a user enters an input, and 
-//B. searches the list items for any matchers
-//the matchers remain on the page, the ones not matching disappears from the page
-
-//A.
-//target search form
 const searchForm = document.querySelector('.search input');
-
-// FILTER LIST
-/*
-1) filterList requires an input field - and list items. It searches amongst list items 
-currently present in the DOM - and returns a filtered and unfiltered array. 
-
-2) The filtered array are list items that do not include the phrase in the form
-
-3) The unfiltered array are list items that includes the phrases in the form.
-
-4) We then add the .filtered class to elements that are filtered - which is likely to hide them
-
-5) We remove the .filtered class from the elements that aren't filtered at any point.
-
-
-*/
 
 const filterList = function (list) {
 
@@ -168,7 +172,7 @@ searchForm.addEventListener('keyup', (e)=> {
 // PAGE LOAD
 
 window.onload = function(){
-    loadToDos();
+    loadData('Todos');
     let animateToDo = setTimeout( function() {
         //Remove invisible class from UL and its LI's
         toDoList.classList.remove('invisible');
