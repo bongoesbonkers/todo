@@ -8,12 +8,12 @@ let toDoItems = [];
 //DATA 
 
 const saveData = (data) => {
-    localStorage.setItem('Todos', JSON.stringify(data));
+    window.localStorage.setItem('Todos', JSON.stringify(data));
 }
 
 const loadData = (savedData) => {
 
-    let loaded = localStorage.getItem(savedData)
+    let loaded = window.localStorage.getItem(savedData)
     
     if (loaded === null) {
         toDoItems = [
