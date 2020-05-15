@@ -1,4 +1,3 @@
-
 const newToDoForm = document.querySelector('.add');
 const toDoList = document.querySelector('ul');
 const empty = document.querySelector('.empty');
@@ -8,13 +7,13 @@ let toDoItems = [];
 //DATA 
 
 const saveData = (data) => {
-    window.localStorage.setItem('Todos', JSON.stringify(data));
+    localStorage.setItem('Todos', JSON.stringify(data));
 }
 
 const loadData = (savedData) => {
 
-    let loaded = window.localStorage.getItem(savedData)
-    
+    let loaded = localStorage.getItem(savedData)
+
     if (loaded === null) {
         toDoItems = [
             'click anywhere on a todo to cross it out. Click on it again to uncheck it.',
@@ -23,20 +22,25 @@ const loadData = (savedData) => {
         ];
     } else if (JSON.parse(loaded).length === 0) {
         toggleInfo("Welcome back, your to do list is empty");
+        todoItems = [];
         
-    } else {
+    } else if (JSON.parse(loaded).length){
         todoItems = JSON.parse(loaded);
     }
-    loadToDos(toDoItems);
 
+    if(toDoItems.length){
+        todoItems.forEach(toDo => {
+            generateToDo(toDo, toDoList);
+        });    
+    }
 }
 
-
-const loadToDos = (data) => {
-    data.forEach(function(datum){
-        generateToDo(datum, toDoList);
-    });
-};
+// const loadToDos = (data) => {
+//     data.forEach(datum => {
+//         console.log('printing');
+//         generateToDo(datum, toDoList);
+//     });
+// };
 
 const generateToDo = function (inputValue, outputTarget){
     let template =  `
@@ -63,7 +67,6 @@ newToDoForm.addEventListener('submit', function(e){
     } else {
 
         toDoItems.push(newToDo);
-        console.log(toDoItems);
         generateToDo(newToDo, toDoList);
         newToDoForm.reset();
 
@@ -120,7 +123,32 @@ const toggleInfo = (message) =>{
     }
 }
 
+
+// SEARCH TO DO
+//Function - 
+//A. detect when a user enters an input, and 
+//B. searches the list items for any matchers
+//the matchers remain on the page, the ones not matching disappears from the page
+
+//A.
+//target search form
 const searchForm = document.querySelector('.search input');
+
+// FILTER LIST
+/*
+1) filterList requires an input field - and list items. It searches amongst list items 
+currently present in the DOM - and returns a filtered and unfiltered array. 
+
+2) The filtered array are list items that do not include the phrase in the form
+
+3) The unfiltered array are list items that includes the phrases in the form.
+
+4) We then add the .filtered class to elements that are filtered - which is likely to hide them
+
+5) We remove the .filtered class from the elements that aren't filtered at any point.
+
+
+*/
 
 const filterList = function (list) {
 
