@@ -66,7 +66,7 @@ newToDoForm.addEventListener('submit', function(e){
 
     e.preventDefault();
     let newToDoInput = newToDoForm.querySelector('input');
-    let newToDo = newToDoInput.value.trim();
+    let newToDo = newToDoInput.value.trim().toLowerCase();
 
     if(newToDo.length === 0){
         info.innerText = 'New to do must be at least 1 character long';
@@ -129,12 +129,13 @@ const toggleInfo = (message) =>{
 
 // SEARCH TO DO
 //target search form
-const searchForm = document.querySelector('.search input');
+const searchForm = document.querySelector('.search');
+const searchInput = searchForm.querySelector('input');
 
 //FILTER LIST
 const filterList = function (list) {
 
-    const input = searchForm.value.trim().toLowerCase();
+    const input = searchInput.value.trim().toLowerCase();
     const listItems = Array.from(toDoList.children);
 
     const filtered = listItems.filter((item)=>{
@@ -173,8 +174,16 @@ const filterList = function (list) {
 
 
 //Add keypress listener, and then store the present value of the input field
-searchForm.addEventListener('keyup', (e)=> {
-    filterList(toDoList);
+searchInput.addEventListener('keyup', (e)=> {
+    if(e.keyCode === 13) {
+        e.preventDefault();
+    } else {
+        filterList(toDoList);
+    }
+});
+
+searchForm.addEventListener('submit', e => {
+    e.preventDefault();
 });
 
 // PAGE LOAD

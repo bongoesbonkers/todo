@@ -18,8 +18,9 @@
         </div>
 
         <!-- SEARCH FORM -->
-        <form action="" class="search">
+        <form class="search" autocomplete="off">
             <input type="text" id='searchToDo' class='form-control' placeholder="Search to dos...">
+            <input type="submit" value="Submit" class="d-none">
         </form>
 
         <!-- INFO DISPLAY -->
@@ -30,7 +31,7 @@
         <ul class="list-group mt-4 invisible">
         </ul>
         <!-- ADD TODO FORM -->
-        <form action="" class="add text-center my-4">
+        <form class="add text-center my-4" autocomplete="off">
             <input type="text" id="newToDo" class="form-control m-auto" placeholder="Add a new todo">
             <input type="submit" value="Add To Do" class='btn btn-info form-control p-1 rounded-bottom'>
         </form>
@@ -41,7 +42,7 @@
     <div class="container text-center container__timer p-1 mb-5">
     <form class='duration'>
         <h2 class='mt-5 mb-3 text-center text-white'><span class="text-danger">T<img src="img/tomato.png" class="tomato">mato Timer </span> </h2>
-        <p class='my-1 mb-3 text-muted'>Boost productivity with the <abbr title="(1)Select a specific task (2)Focus on it for 25 minutes. (3)Take a short 5 minute break in between. (4)Take a longer 20 minute break after 4 sessions."><em>pomodoro</em></abbr> technique!</p>
+        <p class='my-1 mb-3 text-muted'>Improve your todos using the <abbr title="(1)Select a specific task (2)Focus on it for 25 minutes. (3)Take a short 5 minute break in between. (4)Take a longer 20 minute break after 4 sessions."><em>pomodoro</em></abbr> technique!</p>
         <input type="text" name="minutes" class="minutes form-control mb-3" placeholder="Enter a time between 1 to 60 minutes">
         <input type="reset" value="Interrupt" class="reset btn btn-white ml-2">
         <input type="submit" value="Start Timer" class="start btn btn-danger ml-2">
