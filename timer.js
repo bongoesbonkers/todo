@@ -44,6 +44,8 @@ form.addEventListener('submit', e => {
                     clearInterval(timer);
                     timeDisp.classList.remove('live');
                     timeInfo.classList.add('d-none');
+                    timeInfo.textContent = 'Remember, manage your interruptions!';
+
                 }
                 updateUI(minutesRemainder, secondsRemainder, timeDisp);
             }, 1000)
@@ -81,6 +83,7 @@ const stopTimer = (interval, time) => {
         timeDisp.classList.remove('live');
         timeDisp.innerHTML = `${htmlBase}00:00</span>`;
         timeInfo.classList.add('d-none');
+        timeInfo.textContent = 'Remember, manage your interruptions!';
     });
 }
 
