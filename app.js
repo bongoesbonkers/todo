@@ -4,7 +4,7 @@ const empty = document.querySelector('.empty');
 const failSearch = document.querySelector('.failSearch');
 let toDoItems = [];
 
-//DATA 
+//DATA RELATED
 
 const saveData = (data) => {
     localStorage.setItem('Todos', JSON.stringify(data));
@@ -35,16 +35,10 @@ const loadData = (savedData) => {
     }
 }
 
-// const loadToDos = (data) => {
-//     data.forEach(datum => {
-//         console.log('printing');
-//         generateToDo(datum, toDoList);
-//     });
-// };
 
-const generateToDo = function (inputValue, outputTarget){
+const generateToDo = function (inputValue, outputTarget, callback){
     let template =  `
-    <li class="list-group-item d-flex justify-content-between align-items-center bg-light text-capitalize">
+    <li class="list-group-item d-flex justify-content-between align-items-center bg-light text-capitalize invisible">
         <span class="p-1 todo">${inputValue}</span>
     <button type="button" class="close delete" aria-label="Close">
         <span class="delete" aria-hidden="true">&times;</span>
@@ -52,10 +46,22 @@ const generateToDo = function (inputValue, outputTarget){
     </li>
     `;
     outputTarget.innerHTML += template;
+    const newIndex = outputTarget.children.length;
+    const newToDo = (outputTarget.children[newIndex-1]);
+
+    //Animate the new To Do
+    let animateToDo = setTimeout( function() {
+        if (newToDo.classList.contains('invisible')) {
+               newToDo.classList.remove('invisible');
+               newToDo.classList.add('fadeIn');
+                let timeOut = setTimeout( function () {
+                    newToDo.classList.remove('fadeIn');
+                }, 300)
+        }
+    }, 800)
 } 
 
 // ADD NEW TO DO
-
 newToDoForm.addEventListener('submit', function(e){
 
     e.preventDefault();
@@ -81,7 +87,6 @@ newToDoForm.addEventListener('submit', function(e){
 });
 
 // MARK TO DO
-
 toDoList.addEventListener('click', function(e) {
     if (e.target.tagName === "LI") {
         e.target.children[0].classList.toggle('checked');
@@ -91,7 +96,6 @@ toDoList.addEventListener('click', function(e) {
 });
 
 // DELETE TO DO
-
 toDoList.addEventListener('click', function(e) {
 
     if (e.target.tagName === "SPAN" && e.target.className === "delete") {
@@ -111,7 +115,6 @@ toDoList.addEventListener('click', function(e) {
 });
 
 // CHECK IF TODOs ARE AVAILABLE TO TOGGLE INFO MESSAGE
-
 const toggleInfo = (message) =>{
     let toDoAvailable = Array.from(toDoList.children);
     if( toDoAvailable.length <= 1) {
@@ -125,31 +128,10 @@ const toggleInfo = (message) =>{
 
 
 // SEARCH TO DO
-//Function - 
-//A. detect when a user enters an input, and 
-//B. searches the list items for any matchers
-//the matchers remain on the page, the ones not matching disappears from the page
-
-//A.
 //target search form
 const searchForm = document.querySelector('.search input');
 
-// FILTER LIST
-/*
-1) filterList requires an input field - and list items. It searches amongst list items 
-currently present in the DOM - and returns a filtered and unfiltered array. 
-
-2) The filtered array are list items that do not include the phrase in the form
-
-3) The unfiltered array are list items that includes the phrases in the form.
-
-4) We then add the .filtered class to elements that are filtered - which is likely to hide them
-
-5) We remove the .filtered class from the elements that aren't filtered at any point.
-
-
-*/
-
+//FILTER LIST
 const filterList = function (list) {
 
     const input = searchForm.value.trim().toLowerCase();
@@ -192,13 +174,10 @@ const filterList = function (list) {
 
 //Add keypress listener, and then store the present value of the input field
 searchForm.addEventListener('keyup', (e)=> {
-
     filterList(toDoList);
-
 });
 
 // PAGE LOAD
-
 window.onload = function(){
     loadData('Todos');
     let animateToDo = setTimeout( function() {
@@ -209,7 +188,6 @@ window.onload = function(){
                child.classList.remove('invisible');
            }
         });
-
         toDoList.classList.toggle('fadeIn');
     }, 500)
 }
